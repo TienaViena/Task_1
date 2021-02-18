@@ -7,12 +7,20 @@ class Task1(unittest.TestCase):
         self.wd = webdriver.Firefox()
         self.wd.implicitly_wait(30)
 
-    def test_task1(self):
+    def test_add_group(self):
         wd = self.wd
         self.open_home_page(wd)
         self.login(wd, name="admin", password="secret")
         self.open_groups_page(wd)
         self.create_group(wd, name="task_1", header="test", footer="test")
+        self.logout(wd)
+
+    def test_add_empty_group(self):
+        wd = self.wd
+        self.open_home_page(wd)
+        self.login(wd, name="admin", password="secret")
+        self.open_groups_page(wd)
+        self.create_group(wd, name="", header="", footer="")
         self.logout(wd)
 
     def logout(self, wd):
