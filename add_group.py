@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
 import unittest
+from group import Group
 
 class Task1(unittest.TestCase):
     def setUp(self):
@@ -12,7 +13,7 @@ class Task1(unittest.TestCase):
         self.open_home_page(wd)
         self.login(wd, name="admin", password="secret")
         self.open_groups_page(wd)
-        self.create_group(wd, name="task_1", header="test", footer="test")
+        self.create_group(wd, Group(name="task_1", header="test", footer="test"))
         self.logout(wd)
 
     def test_add_empty_group(self):
@@ -20,24 +21,24 @@ class Task1(unittest.TestCase):
         self.open_home_page(wd)
         self.login(wd, name="admin", password="secret")
         self.open_groups_page(wd)
-        self.create_group(wd, name="", header="", footer="")
+        self.create_group(wd, Group(name="", header="", footer=""))
         self.logout(wd)
 
     def logout(self, wd):
         wd.find_element_by_link_text("Logout").click()
 
-    def create_group(self, wd, name, header, footer):
+    def create_group(self, wd, group):
         # init group creation
         wd.find_element_by_name("new").click()
         # fill group firm
         wd.find_element_by_name("group_name").click()
         wd.find_element_by_name("group_name").clear()
-        wd.find_element_by_name("group_name").send_keys("%s" % name)
+        wd.find_element_by_name("group_name").send_keys("%s" % group.name)
         wd.find_element_by_name("group_header").click()
         wd.find_element_by_name("group_header").clear()
-        wd.find_element_by_name("group_header").send_keys("%s" % header)
+        wd.find_element_by_name("group_header").send_keys("%s" % group.header)
         wd.find_element_by_name("group_footer").clear()
-        wd.find_element_by_name("group_footer").send_keys("%s" % footer)
+        wd.find_element_by_name("group_footer").send_keys("%s" % group.footer)
         # submit group creation
         wd.find_element_by_name("submit").click()
 
