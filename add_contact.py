@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import NoAlertPresentException
-import unittest, time, re
+import unittest
 
 class AddNewContact(unittest.TestCase):
     def setUp(self):
@@ -14,7 +10,9 @@ class AddNewContact(unittest.TestCase):
 
     def test_add_new_contact(self):
         wd = self.wd
+        # open home page
         wd.get("http://localhost/addressbook/")
+        # login
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys("admin")
@@ -22,7 +20,9 @@ class AddNewContact(unittest.TestCase):
         wd.find_element_by_name("pass").clear()
         wd.find_element_by_name("pass").send_keys("secret")
         wd.find_element_by_xpath("//input[@value='Login']").click()
+        # init new contact
         wd.find_element_by_link_text("add new").click()
+        # fill contact
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
         wd.find_element_by_name("firstname").send_keys("Erast")
@@ -52,8 +52,11 @@ class AddNewContact(unittest.TestCase):
         wd.find_element_by_name("byear").click()
         wd.find_element_by_name("byear").clear()
         wd.find_element_by_name("byear").send_keys("1996")
+        # submit new contact
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
+        # open home page
         wd.find_element_by_link_text("home").click()
+        # logout
         wd.find_element_by_link_text("Logout").click()
     
     def is_element_present(self, how, what):
