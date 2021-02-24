@@ -9,25 +9,22 @@ class Task1(unittest.TestCase):
         self.wd.implicitly_wait(30)
 
     def test_add_group(self):
-        wd = self.wd
-        self.open_home_page(wd)
-        self.login(wd, name="admin", password="secret")
-        self.open_groups_page(wd)
-        self.create_group(wd, Group(name="task_1", header="test", footer="test"))
-        self.logout(wd)
+        self.login(name="admin", password="secret")
+        self.create_group(Group(name="task_1", header="test", footer="test"))
+        self.logout()
 
     def test_add_empty_group(self):
-        wd = self.wd
-        self.open_home_page(wd)
-        self.login(wd, name="admin", password="secret")
-        self.open_groups_page(wd)
-        self.create_group(wd, Group(name="", header="", footer=""))
-        self.logout(wd)
+        self.login(name="admin", password="secret")
+        self.create_group(Group(name="", header="", footer=""))
+        self.logout()
 
-    def logout(self, wd):
+    def logout(self):
+        wd = self.wd
         wd.find_element_by_link_text("Logout").click()
 
-    def create_group(self, wd, group):
+    def create_group(self, group):
+        wd = self.wd
+        self.open_groups_page()
         # init group creation
         wd.find_element_by_name("new").click()
         # fill group firm
@@ -42,10 +39,13 @@ class Task1(unittest.TestCase):
         # submit group creation
         wd.find_element_by_name("submit").click()
 
-    def open_groups_page(self, wd):
+    def open_groups_page(self):
+        wd = self.wd
         wd.find_element_by_link_text("groups").click()
 
-    def login(self, wd, name, password):
+    def login(self, name, password):
+        wd = self.wd
+        self.open_home_page()
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys("%s" % name)
@@ -54,7 +54,8 @@ class Task1(unittest.TestCase):
         wd.find_element_by_name("pass").send_keys("%s" % password)
         wd.find_element_by_xpath("//input[@value='Login']").click()
 
-    def open_home_page(self, wd):
+    def open_home_page(self):
+        wd = self.wd
         wd.get("http://localhost/addressbook/group.php")
 
     def tearDown(self):
