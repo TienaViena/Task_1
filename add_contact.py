@@ -11,20 +11,21 @@ class AddNewContact(unittest.TestCase):
 
     def test_add_new_contact(self):
         wd = self.wd
-        self.open_home_page(wd)
-        self.login(wd, username="admin", password="secret")
-        self.create_contact(wd, Group_contact(firstname="Erast", lastname="Fandorin", nickname="Juffin Hally", company="Adventures", mobile="+79991112233",
+        self.login(username="admin", password="secret")
+        self.create_contact(Group_contact(firstname="Erast", lastname="Fandorin", nickname="Juffin Hally", company="Adventures", mobile="+79991112233",
                             email="JuffinHally@yandex.ru", bday="14", bmonth="July", byears="1996"))
-        self.return_to_home_page(wd)
-        self.logout(wd)
+        self.logout()
 
-    def logout(self, wd):
+    def logout(self):
+        wd = self.wd
         wd.find_element_by_link_text("Logout").click()
 
-    def return_to_home_page(self, wd):
+    def return_to_home_page(self):
+        wd = self.wd
         wd.find_element_by_link_text("home").click()
 
-    def create_contact(self, wd, group_contact):
+    def create_contact(self, group_contact):
+        wd = self.wd
         # init new contact
         wd.find_element_by_link_text("add new").click()
         # fill contact
@@ -59,8 +60,11 @@ class AddNewContact(unittest.TestCase):
         wd.find_element_by_name("byear").send_keys("%s" % group_contact.byears)
         # submit new contact
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
+        self.return_to_home_page()
 
-    def login(self, wd, username, password):
+    def login(self, username, password):
+        wd = self.wd
+        self.open_home_page()
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
@@ -69,7 +73,8 @@ class AddNewContact(unittest.TestCase):
         wd.find_element_by_name("pass").send_keys("%s" % password)
         wd.find_element_by_xpath("//input[@value='Login']").click()
 
-    def open_home_page(self, wd):
+    def open_home_page(self):
+        wd = self.wd
         wd.get("http://localhost/addressbook/")
 
     def is_element_present(self, how, what):
