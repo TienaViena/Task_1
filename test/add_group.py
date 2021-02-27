@@ -12,12 +12,12 @@ def app(request):
 
 
 def test_add_group(app):
-    app.login(name="admin", password="secret")
+    app.session.login(name="admin", password="secret")
     app.create_group(Group(name="task_1", header="test", footer="test"))
-    app.logout()
+    app.session.logout()
 
 
 def test_add_empty_group(app):
-    app.login(name="admin", password="secret")
+    app.session.login(name="admin", password="secret")
     app.create_group(Group(name="", header="", footer=""))
-    app.logout()
+    app.session.logout()
