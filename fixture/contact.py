@@ -9,7 +9,7 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_link_text("home").click()
 
-    def create_contact(self, contact):
+    def create(self, contact):
         wd = self.app.wd
         # init new contact
         wd.find_element_by_link_text("add new").click()
@@ -46,3 +46,11 @@ class ContactHelper:
         # submit new contact
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
         self.return_to_home_page()
+
+    def delete_first_contact(self):
+        wd = self.app.wd
+        self.app.wd.find_element_by_name("searchstring")
+        # select first contact
+        wd.find_element_by_name("selected[]").click()
+        # submit deletion
+        wd.find_element_by_name("delete").click()
